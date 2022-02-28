@@ -1,9 +1,10 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import WelcomeMain from '../welcome-main/welcome-main';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import NotFound404 from '../NotFound404/NotFound404';
 import MyList from '../my-list/my-list';
 import SignIn from '../sign-in/sign-in';
+import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
   geners: string[],
@@ -40,7 +41,11 @@ function App({
         <Route
           path={AppRoute.MyList}
           element={(
-            <MyList />
+            <PrivateRoute
+              authorizationStatus={AuthorizationStatus.NoAuth}
+            >
+              <MyList />
+            </PrivateRoute>
           )}
         />
         <Route
