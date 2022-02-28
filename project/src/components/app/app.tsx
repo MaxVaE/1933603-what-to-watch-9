@@ -42,7 +42,7 @@ function App({
           path={AppRoute.MyList}
           element={(
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={AuthorizationStatus.Auth}
             >
               <MyList />
             </PrivateRoute>

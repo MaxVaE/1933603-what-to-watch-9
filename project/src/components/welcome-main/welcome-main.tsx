@@ -2,6 +2,7 @@ import FilmCard from '../film-card/film-card';
 import GenresItem from '../genres-item/genres-item';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import { AuthorizationStatus } from '../../const';
 
 type WelcomeMainProps = {
   geners: string[],
@@ -31,7 +32,9 @@ export default function WelcomeMain({
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header />
+        <Header
+          authorizationStatus={AuthorizationStatus.Auth}
+        />
 
         <div className="film-card__wrap">
           <div className="film-card__info">
