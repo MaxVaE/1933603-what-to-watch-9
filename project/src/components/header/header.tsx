@@ -1,24 +1,47 @@
-export default function Header(): JSX.Element {
-  return (
-    <header className="page-header film-card__head">
-      <div className="logo">
-        <a href="/" className="logo__link">
-          <span className="logo__letter logo__letter--1">W</span>
-          <span className="logo__letter logo__letter--2">T</span>
-          <span className="logo__letter logo__letter--3">W</span>
-        </a>
-      </div>
+import { Link } from 'react-router-dom';
+import Logo from '../logo/logo';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
-      <ul className="user-block">
-        <li className="user-block__item">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
-        </li>
-        <li className="user-block__item">
-          <a href="/" className="user-block__link">Sign out</a>
-        </li>
-      </ul>
+type HeaderProps = {
+  authorizationStatus: AuthorizationStatus,
+  title?: string,
+  isTypeUserPage?: boolean,
+}
+
+export default function Header({
+  authorizationStatus,
+  title,
+  isTypeUserPage,
+}: HeaderProps): JSX.Element {
+  const userHeadType: string = isTypeUserPage ? 'user-page__head' : 'film-card__head';
+  return (
+    <header className={`page-header ${userHeadType}`}>
+      <Logo />
+
+      { title && (
+        <h1 className="page-title user-page__title">{title}</h1>
+      )}
+
+      {
+        authorizationStatus === AuthorizationStatus.Auth
+          ? (
+            <ul className="user-block">
+              <li className="user-block__item">
+                <div className="user-block__avatar">
+                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                </div>
+              </li>
+              <li className="user-block__item">
+                <Link to={AppRoute.SignIn} className="user-block__link">Sign out</Link>
+              </li>
+            </ul>
+          )
+          : (
+            <div className="user-block">
+              <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
+            </div>
+          )
+      }
     </header>
   );
 }
