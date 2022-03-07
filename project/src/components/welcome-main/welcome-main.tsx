@@ -1,21 +1,14 @@
-import FilmCard from '../film-card/film-card';
 import GenresItem from '../genres-item/genres-item';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import { AuthorizationStatus } from '../../const';
+import { Films, SelectedFilm } from '../../types/films';
+import FilmsList from '../films-list/films-list';
 
 type WelcomeMainProps = {
   geners: string[],
-  films: Array<{
-    name: string,
-    srcImg: string,
-  }>,
-  selectedFilm: {
-    title: string,
-    gener: string,
-    year: number,
-    srcPoster: string,
-  },
+  films: Films,
+  selectedFilm: SelectedFilm,
 };
 
 export default function WelcomeMain({
@@ -84,17 +77,7 @@ export default function WelcomeMain({
             }
           </ul>
 
-          <div className="catalog__films-list">
-            {
-              films.map((film) => (
-                <FilmCard
-                  key={film.name}
-                  name={film.name}
-                  srcImg={film.srcImg}
-                />
-              ))
-            }
-          </div>
+          <FilmsList films={films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

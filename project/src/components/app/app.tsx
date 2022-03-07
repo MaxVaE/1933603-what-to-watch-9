@@ -1,30 +1,31 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import WelcomeMain from '../welcome-main/welcome-main';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { Films, SelectedFilm } from '../../types/films';
+
+import WelcomeMain from '../welcome-main/welcome-main';
 import NotFound404 from '../NotFound404/NotFound404';
 import MyList from '../my-list/my-list';
 import SignIn from '../sign-in/sign-in';
 import PrivateRoute from '../private-route/private-route';
+import MoviePage from '../movie-page/movie-page';
+import AddReview from '../add-review/add-review';
+import Player from '../player/player';
 
 type AppProps = {
   geners: string[],
-  films: Array<{
-    name: string,
-    srcImg: string,
-  }>,
-  selectedFilm: {
-    title: string,
-    gener: string,
-    year: number,
-    srcPoster: string,
-  },
+  films: Films,
+  selectedFilm: SelectedFilm,
+  video: string,
 };
 
 function App({
   geners,
   films,
   selectedFilm,
+  video,
 }: AppProps): JSX.Element {
+  const myFilms = films.filter((film, index) => index < 6);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -44,7 +45,7 @@ function App({
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <MyList />
+              <MyList myFilms={myFilms}/>
             </PrivateRoute>
           )}
         />
@@ -53,6 +54,22 @@ function App({
           element={(
             <SignIn />
           )}
+        />
+        <Route
+          path={AppRoute.Film}
+          element={(
+            <MoviePage films={films.filter((film, index) => index < 4)} />
+          )}
+        />
+        <Route
+          path={AppRoute.AddReview}
+          element={(
+            <AddReview film={films[0]} />
+          )}
+        />
+        <Route
+          path={AppRoute.Player}
+          element={<Player video={video} />}
         />
         <Route
           path="*"
