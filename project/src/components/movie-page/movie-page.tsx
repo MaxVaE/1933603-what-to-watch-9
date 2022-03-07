@@ -3,7 +3,7 @@ import Header from '../header/header';
 import { AuthorizationStatus, AppRoute } from '../../const';
 import FilmsList from '../films-list/films-list';
 import { Films } from '../../types/films';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 type MoviePageProps = {
   films: Films,
@@ -12,6 +12,8 @@ type MoviePageProps = {
 export default function MoviePage({
   films,
 }: MoviePageProps): JSX.Element {
+  const { id: filmId } = useParams();
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -28,7 +30,7 @@ export default function MoviePage({
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{films.find((film) => film.id === filmId)?.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">Drama</span>
                 <span className="film-card__year">2014</span>
@@ -56,7 +58,7 @@ export default function MoviePage({
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={films.find((film) => film.id === filmId)?.srcImg} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -100,7 +102,7 @@ export default function MoviePage({
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={films} />
+          <FilmsList films={films.filter((film, index) => index < 4)} />
         </section>
 
         <Footer />

@@ -21,7 +21,7 @@ export default function FilmCard({
       </div>
       <h3 className="small-film-card__title">
         <Link
-          to={AppRoute.Film}
+          to={AppRoute.Film.replace(':id', film.id)}
           className="small-film-card__link"
         >
           {film.name}

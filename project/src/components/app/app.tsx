@@ -58,7 +58,7 @@ function App({
         <Route
           path={AppRoute.Film}
           element={(
-            <MoviePage films={films.filter((film, index) => index < 4)} />
+            <MoviePage films={films} />
           )}
         />
         <Route
