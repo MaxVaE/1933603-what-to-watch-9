@@ -1,7 +1,8 @@
 export type Film = {
   id: string,
   name: string,
-  srcImg: string,
+  imgSrc: string,
+  videoSrc: string,
 };
 
 export type SelectedFilm = {

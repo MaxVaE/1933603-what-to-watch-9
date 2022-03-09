@@ -58,7 +58,7 @@ export default function MoviePage({
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={films.find((film) => film.id === filmId)?.srcImg} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={films.find((film) => film.id === filmId)?.imgSrc} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
