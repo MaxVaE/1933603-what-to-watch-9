@@ -1,15 +1,28 @@
 export type Film = {
-  id: string,
-  name: string,
-  imgSrc: string,
-  videoSrc: string,
+  id: number;
+  name: string;
+  posterImage: string;
+  previewImage: string;
+  backgroundImage: string;
+  backgroundColor: string;
+  videoLink: string;
+  previewVideoLink: string;
+  description: string;
+  rating: number;
+  scoresCount: number;
+  director: string;
+  starring: string[];
+  runTime: number;
+  genre: string;
+  released: number;
+  isFavorite: boolean;
 };
 
 export type SelectedFilm = {
-  title: string,
-  gener: string,
-  year: number,
-  srcPoster: string,
+  title: string;
+  genre: string;
+  year: number;
+  srcPoster: string;
 };
 
 export type Films = Film[];

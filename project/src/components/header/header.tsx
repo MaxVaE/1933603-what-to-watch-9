@@ -1,22 +1,26 @@
 import { Link } from 'react-router-dom';
 import Logo from '../logo/logo';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { ReactNode } from 'react';
 
 type HeaderProps = {
-  authorizationStatus: AuthorizationStatus,
-  title?: string,
-  isTypeUserPage?: boolean,
+  authorizationStatus: AuthorizationStatus;
+  title?: string;
+  pageHeaderType?: string;
+  children: ReactNode;
 }
 
 export default function Header({
   authorizationStatus,
   title,
-  isTypeUserPage,
+  pageHeaderType,
+  children,
 }: HeaderProps): JSX.Element {
-  const userHeadType: string = isTypeUserPage ? 'user-page__head' : 'film-card__head';
   return (
-    <header className={`page-header ${userHeadType}`}>
+    <header className={`page-header ${pageHeaderType}`}>
       <Logo />
+
+      {children}
 
       { title && (
         <h1 className="page-title user-page__title">{title}</h1>

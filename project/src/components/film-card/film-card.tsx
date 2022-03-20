@@ -5,8 +5,8 @@ import { Film } from '../../types/films';
 import Video from '../video/video';
 
 type FilmCardProps = {
-  film: Film,
-  activateFilm: (id: string) => void,
+  film: Film;
+  activateFilm: (id: number) => void;
 }
 
 export default function FilmCard({
@@ -26,15 +26,15 @@ export default function FilmCard({
     >
       <div className="small-film-card__image">
         <Video
-          videoSrc={film.videoSrc}
-          poster={film.imgSrc}
+          videoSrc={film.previewVideoLink}
+          poster={film.previewImage}
           isPlaying={autoPlay}
           muted
         />
       </div>
       <h3 className="small-film-card__title">
         <Link
-          to={AppRoute.Film.replace(':id', film.id)}
+          to={AppRoute.Film.replace(':id', film.id.toString())}
           className="small-film-card__link"
         >
           {film.name}

@@ -1,21 +1,21 @@
-import GenresItem from '../genres-item/genres-item';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import { AuthorizationStatus } from '../../const';
-import { Films, SelectedFilm } from '../../types/films';
+import { SelectedFilm } from '../../types/films';
 import FilmsList from '../films-list/films-list';
+import GenresList from '../genres-list/genres-list';
+import { useAppSelector } from '../../hooks';
 
 type WelcomeMainProps = {
-  geners: string[],
-  films: Films,
-  selectedFilm: SelectedFilm,
+  selectedFilm: SelectedFilm;
 };
 
 export default function WelcomeMain({
-  geners,
-  films,
   selectedFilm,
 }: WelcomeMainProps): JSX.Element {
+  const films = useAppSelector((state) => state.films);
+  const genres = useAppSelector((state) => state.genres);
+
   return (
     <>
       <section className="film-card">
@@ -27,7 +27,9 @@ export default function WelcomeMain({
 
         <Header
           authorizationStatus={AuthorizationStatus.Auth}
-        />
+          pageHeaderType="film-card__head"
+        >
+        </Header>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
@@ -38,7 +40,7 @@ export default function WelcomeMain({
             <div className="film-card__desc">
               <h2 className="film-card__title">{selectedFilm.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{selectedFilm.gener}</span>
+                <span className="film-card__genre">{selectedFilm.genre}</span>
                 <span className="film-card__year">{selectedFilm.year}</span>
               </p>
 
@@ -65,19 +67,9 @@ export default function WelcomeMain({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            {
-              geners.map((gener) => (
-                <GenresItem
-                  key={gener}
-                  gener={gener}
-                  isActive={gener === 'All genres'}
-                />
-              ))
-            }
-          </ul>
+          <GenresList genres={genres}/>
 
-          <FilmsList films={films}/>
+          <FilmsList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

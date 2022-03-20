@@ -1,20 +1,31 @@
+import { Link } from 'react-router-dom';
+
 type GenresItemProps = {
-  gener: string,
-  isActive?: boolean,
+  genre: string;
+  isActive?: boolean;
+  onClick: () => void;
 }
 
 export default function GenresItem({
-  gener,
+  genre,
   isActive = false,
+  onClick,
 }: GenresItemProps): JSX.Element {
   return (
-    <li className={`catalog__genres-item ${
-      isActive
-        ? 'catalog__genres-item--active'
-        : ''}
-      `}
+    <li
+      className={`catalog__genres-item ${
+        isActive
+          ? 'catalog__genres-item--active'
+          : ''}
+        `}
+      onClick={onClick}
     >
-      <a href="/" className="catalog__genres-link">{gener}</a>
+      <Link
+        to="/"
+        className="catalog__genres-link"
+      >
+        {genre}
+      </Link>
     </li>
   );
 }
