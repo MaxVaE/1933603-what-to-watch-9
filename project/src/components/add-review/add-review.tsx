@@ -1,13 +1,16 @@
-import { Film } from '../../types/films';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { onReviewProps } from '../../types/add-review';
 import FormAddReview from '../form-add-review/form-add-review';
+import Header from '../header/header';
 
-type AddReviewProps = {
-  film: Film,
-}
 
-export default function AddReview({
-  film,
-}: AddReviewProps): JSX.Element {
+export default function AddReview(): JSX.Element {
+  const films = useAppSelector((state) => state.films);
+  const filmId = Number(useParams().id);
+  const film = films.find((filmElem) => filmElem.id === filmId);
+  const location = useLocation();
 
   return (
     <section className="film-card film-card--full">
@@ -18,44 +21,30 @@ export default function AddReview({
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
 
+        <Header
+          authorizationStatus={AuthorizationStatus.Auth}
+
+        >
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <Link to={location.pathname.replace('/review', '')} className="breadcrumbs__link">The Grand Budapest Hotel</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a href="/" className="breadcrumbs__link">Add review</a>
+                <Link to="#" className="breadcrumbs__link">Add review</Link>
               </li>
             </ul>
           </nav>
+        </Header>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a href="/" className="user-block__link">Sign out</a>
-            </li>
-          </ul>
-        </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.imgSrc} alt={film.name} width="218" height="327" />
+          <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
         </div>
       </div>
 
-      <FormAddReview onReview={() => {
+      <FormAddReview onReview={(data: onReviewProps) => {
         throw new Error('Not work');
       }}
       />

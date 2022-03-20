@@ -1,4 +1,4 @@
-type onReviewProps = {
+export type onReviewProps = {
   rating: number;
   message: string;
 };

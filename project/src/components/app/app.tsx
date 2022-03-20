@@ -1,6 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Films, SelectedFilm } from '../../types/films';
+import { SelectedFilm } from '../../types/films';
 
 import WelcomeMain from '../welcome-main/welcome-main';
 import NotFound404 from '../NotFound404/NotFound404';
@@ -12,19 +12,14 @@ import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 
 type AppProps = {
-  geners: string[],
-  films: Films,
-  selectedFilm: SelectedFilm,
-  video: string,
+  selectedFilm: SelectedFilm;
+  video: string;
 };
 
 function App({
-  geners,
-  films,
   selectedFilm,
   video,
 }: AppProps): JSX.Element {
-  const myFilms = films.filter((film, index) => index < 6);
 
   return (
     <BrowserRouter>
@@ -33,8 +28,6 @@ function App({
           path={AppRoute.Main}
           element={(
             <WelcomeMain
-              geners={geners}
-              films={films}
               selectedFilm={selectedFilm}
             />
           )}
@@ -45,7 +38,7 @@ function App({
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <MyList myFilms={myFilms}/>
+              <MyList />
             </PrivateRoute>
           )}
         />
@@ -58,13 +51,13 @@ function App({
         <Route
           path={AppRoute.Film}
           element={(
-            <MoviePage films={films} />
+            <MoviePage />
           )}
         />
         <Route
           path={AppRoute.AddReview}
           element={(
-            <AddReview film={films[0]} />
+            <AddReview />
           )}
         />
         <Route

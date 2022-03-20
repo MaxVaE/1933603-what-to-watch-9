@@ -1,18 +1,16 @@
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import { AuthorizationStatus, AppRoute } from '../../const';
+import { AuthorizationStatus } from '../../const';
 import FilmsList from '../films-list/films-list';
-import { Films } from '../../types/films';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 
-type MoviePageProps = {
-  films: Films,
-}
+export default function MoviePage(): JSX.Element {
+  const films = useAppSelector((state) => state.films);
+  const filmId = Number(useParams().id);
+  const film = films.find((filmElem) => filmElem.id === filmId);
 
-export default function MoviePage({
-  films,
-}: MoviePageProps): JSX.Element {
-  const { id: filmId } = useParams();
+  const location = useLocation();
 
   return (
     <>
@@ -26,11 +24,13 @@ export default function MoviePage({
 
           <Header
             authorizationStatus={AuthorizationStatus.Auth}
-          />
+            pageHeaderType="film-card__head"
+          >
+          </Header>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{films.find((film) => film.id === filmId)?.name}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">Drama</span>
                 <span className="film-card__year">2014</span>
@@ -49,7 +49,11 @@ export default function MoviePage({
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={AppRoute.AddReview} className="btn film-card__button">Add review</Link>
+                <Link
+                  to={`${location.pathname}/review`}
+                  className="btn film-card__button"
+                >Add review
+                </Link>
               </div>
             </div>
           </div>
@@ -58,20 +62,20 @@ export default function MoviePage({
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={films.find((film) => film.id === filmId)?.imgSrc} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
                   <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
+                    <Link to="#" className="film-nav__link">Overview</Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
+                    <Link to="#" className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
+                    <Link to="#" className="film-nav__link">Reviews</Link>
                   </li>
                 </ul>
               </nav>
@@ -102,7 +106,7 @@ export default function MoviePage({
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={films.filter((film, index) => index < 4)} />
+          <FilmsList films={films.filter((element, index) => index < 4)} />
         </section>
 
         <Footer />

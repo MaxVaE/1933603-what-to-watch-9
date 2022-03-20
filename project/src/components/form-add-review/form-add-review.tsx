@@ -1,65 +1,31 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, ReactNode, useState } from 'react';
 import { onReviewFunc } from '../../types/add-review';
 
 type FormAddReviewProps = {
-  onReview: onReviewFunc,
+  onReview: onReviewFunc;
 };
 
 export default function FormAddReview({
   onReview,
 }: FormAddReviewProps) {
-  const [ratings, setRatings] = useState([false, false, false, false, false, false, false, false, false, false]);
+  const [ratings, setRatings] = useState(0);
   const [message, setMessage] = useState('');
 
   return (
     <div className="add-review">
       <form
-        action="#"
         className="add-review__form"
         onSubmit={(evt: FormEvent<HTMLFormElement>) => {
           evt.preventDefault();
           onReview({
-            rating: ratings.findIndex((rating) => rating) + 1,
+            rating: ratings,
             message,
           });
         }}
       >
         <div className="rating">
           <div className="rating__stars">
-            {
-              ratings.map((rating, index) => {
-                const value = index + 1;
-                const inputId = `star-${value}`;
-
-                return (
-                  <div key={inputId}>
-                    <input
-                      className="rating__input"
-                      id={inputId}
-                      type="radio"
-                      name="rating"
-                      value={value}
-                      checked={rating}
-                      onChange={() => {
-                        setRatings(ratings.map((r, id) => {
-                          if (id === index) {
-                            return true;
-                          }
-
-                          return false;
-                        }));
-                      }}
-                    />
-                    <label
-                      className="rating__label"
-                      htmlFor={inputId}
-                    >
-                      Rating {value}
-                    </label>
-                  </div>
-                );
-              })
-            }
+            {renderRatings()}
           </div>
         </div>
 
@@ -84,4 +50,38 @@ export default function FormAddReview({
       </form>
     </div>
   );
+
+  function renderRatings() {
+    const ratingList: ReactNode[] = [];
+
+    for (let i = 0; i < 10; i++) {
+      const value = i + 1;
+      const inputId = `star-${value}`;
+
+      ratingList.push(renderRating(value, inputId));
+    }
+
+    return ratingList.reverse();
+  }
+
+  function renderRating(value: number, inputId: string) {
+    return (
+      <Fragment key={inputId}>
+        <input
+          className="rating__input"
+          id={inputId}
+          type="radio"
+          name="rating"
+          value={value}
+          onChange={(evt: ChangeEvent<HTMLInputElement>) => setRatings(Number(evt.target.value))}
+        />
+        <label
+          className="rating__label"
+          htmlFor={inputId}
+        >
+          Rating {value}
+        </label>
+      </Fragment>
+    );
+  }
 }
