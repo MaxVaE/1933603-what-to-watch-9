@@ -1,10 +1,15 @@
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import { AuthorizationStatus } from '../../const';
-import { SelectedFilm } from '../../types/films';
 import FilmsList from '../films-list/films-list';
 import GenresList from '../genres-list/genres-list';
+import ButtonMore from '../button-more/button-more';
+
+import { AuthorizationStatus } from '../../const';
+import { SelectedFilm } from '../../types/films';
 import { useAppSelector } from '../../hooks';
+import { useState } from 'react';
+
+const DEFAULT_COUNT_FILMS = 8;
 
 type WelcomeMainProps = {
   selectedFilm: SelectedFilm;
@@ -15,6 +20,7 @@ export default function WelcomeMain({
 }: WelcomeMainProps): JSX.Element {
   const films = useAppSelector((state) => state.films);
   const genres = useAppSelector((state) => state.genres);
+  const [countFilms, setCountFilms] = useState(DEFAULT_COUNT_FILMS);
 
   return (
     <>
@@ -67,13 +73,21 @@ export default function WelcomeMain({
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList genres={genres}/>
+          <GenresList
+            genres={genres}
+            updateCountFilmList={() => setCountFilms(DEFAULT_COUNT_FILMS)}
+          />
 
-          <FilmsList films={films} />
+          <FilmsList
+            films={films}
+            countFilms={countFilms}
+          />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          { films.length > countFilms && (
+            <ButtonMore
+              onClick={() => setCountFilms(countFilms + DEFAULT_COUNT_FILMS)}
+            />
+          )}
         </section>
 
         <Footer />

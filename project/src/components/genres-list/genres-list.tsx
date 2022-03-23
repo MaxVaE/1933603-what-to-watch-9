@@ -4,10 +4,12 @@ import { changeGenre, filterFilmsSelectedGenre } from './../../store/action';
 
 type GenresListProps = {
   genres: string[];
+  updateCountFilmList: () => void;
 }
 
 export default function GenresList({
   genres,
+  updateCountFilmList,
 }: GenresListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedGenre = useAppSelector((state) => state.selectedGenre);
@@ -24,6 +26,7 @@ export default function GenresList({
               if (genre !== selectedGenre) {
                 dispatch(changeGenre(genre));
                 dispatch(filterFilmsSelectedGenre());
+                updateCountFilmList();
               }
             }}
           />
