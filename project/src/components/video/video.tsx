@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
 type VideoProps = {
-  videoSrc: string,
-  poster: string,
-  muted?: boolean,
-  isPlaying?: boolean,
+  videoSrc: string;
+  poster: string;
+  muted?: boolean;
+  isPlaying?: boolean;
 }
 
 export default function Video({

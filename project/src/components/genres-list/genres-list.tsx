@@ -1,9 +1,10 @@
+import { Genres } from '../../types/genre';
 import GenresItem from '../genres-item/genres-item';
 import { useAppDispatch, useAppSelector } from './../../hooks/index';
 import { changeGenre, filterFilmsSelectedGenre } from './../../store/action';
 
 type GenresListProps = {
-  genres: string[];
+  genres: Genres;
   updateCountFilmList: () => void;
 }
 

@@ -18,7 +18,7 @@ type WelcomeMainProps = {
 export default function WelcomeMain({
   selectedFilm,
 }: WelcomeMainProps): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector((state) => state.filteredFilmsByGenre);
   const genres = useAppSelector((state) => state.genres);
   const [countFilms, setCountFilms] = useState(DEFAULT_COUNT_FILMS);
 

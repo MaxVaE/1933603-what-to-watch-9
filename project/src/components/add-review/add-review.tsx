@@ -7,7 +7,7 @@ import Header from '../header/header';
 
 
 export default function AddReview(): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector((state) => state.filteredFilmsByGenre);
   const filmId = Number(useParams().id);
   const film = films.find((filmElem) => filmElem.id === filmId);
   const location = useLocation();
