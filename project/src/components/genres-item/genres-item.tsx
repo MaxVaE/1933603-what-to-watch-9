@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
+import { Genre } from '../../types/genre';
 
 type GenresItemProps = {
-  genre: string;
+  genre: Genre;
   isActive?: boolean;
   onClick: () => void;
 }

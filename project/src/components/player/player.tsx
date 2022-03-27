@@ -1,5 +1,5 @@
 type PlayerProps = {
-  video: string,
+  video: string;
 }
 
 export default function Player({

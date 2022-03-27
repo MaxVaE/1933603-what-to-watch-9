@@ -1,5 +1,5 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { SelectedFilm } from '../../types/films';
 
 import WelcomeMain from '../welcome-main/welcome-main';
@@ -10,22 +10,33 @@ import PrivateRoute from '../private-route/private-route';
 import MoviePage from '../movie-page/movie-page';
 import AddReview from '../add-review/add-review';
 import Player from '../player/player';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { useAppSelector } from '../../hooks';
+import { isCheckedAuth } from '../../films';
 
-type AppProps = {
-  selectedFilm: SelectedFilm;
-  video: string;
+const video = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
+
+const selectedFilm: SelectedFilm = {
+  title: 'The Grand Budapest Hotel',
+  genre: 'Drama',
+  year: 2014,
+  srcPoster: 'img/the-grand-budapest-hotel-poster.jpg',
 };
 
-function App({
-  selectedFilm,
-  video,
-}: AppProps): JSX.Element {
+function App(): JSX.Element {
+  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          path={AppRoute.Main}
+          path={AppRoute.Root}
           element={(
             <WelcomeMain
               selectedFilm={selectedFilm}
@@ -36,7 +47,7 @@ function App({
           path={AppRoute.MyList}
           element={(
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
+              authorizationStatus={authorizationStatus}
             >
               <MyList />
             </PrivateRoute>

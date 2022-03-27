@@ -1,3 +1,5 @@
+import { Genre } from './genre';
+
 export type Film = {
   id: number;
   name: string;
@@ -13,14 +15,14 @@ export type Film = {
   director: string;
   starring: string[];
   runTime: number;
-  genre: string;
+  genre: Genre;
   released: number;
   isFavorite: boolean;
 };
 
 export type SelectedFilm = {
   title: string;
-  genre: string;
+  genre: Genre;
   year: number;
   srcPoster: string;
 };

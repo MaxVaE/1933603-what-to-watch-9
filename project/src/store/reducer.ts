@@ -1,16 +1,29 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { films } from './../mocks/films';
-import { changeGenre, filterFilmsSelectedGenre } from './action';
+import { AuthorizationStatus } from '../const';
+import { Films } from '../types/films';
+import { Genres } from '../types/genre';
+import { changeGenre, filterFilmsSelectedGenre, loadFilms, requireAuthorization, setError } from './action';
 
-const genres = new Set(['All genres']);
+const ALL_GENRES = 'All genres';
 
-films.forEach((film) => genres.add(film.genre));
+type InitialState = {
+  baseFilms: Films;
+  filteredFilmsByGenre: Films;
+  genres: Genres;
+  selectedGenre: string;
+  authorizationStatus: AuthorizationStatus;
+  isDataLoaded: boolean;
+  error: string;
+}
 
-const initialState = {
-  baseFilms: films,
-  films: films,
-  genres: [...genres],
-  selectedGenre: 'All genres',
+const initialState: InitialState = {
+  baseFilms: [],
+  filteredFilmsByGenre: [],
+  genres: [],
+  selectedGenre: ALL_GENRES,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isDataLoaded: false,
+  error: '',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -19,11 +32,28 @@ const reducer = createReducer(initialState, (builder) => {
       state.selectedGenre = value.payload;
     })
     .addCase(filterFilmsSelectedGenre, (state) => {
-      state.films = state.baseFilms;
+      state.filteredFilmsByGenre = state.baseFilms;
 
-      if (state.selectedGenre !== 'All genres') {
-        state.films = state.films.filter((film) => state.selectedGenre === film.genre);
+      if (state.selectedGenre !== ALL_GENRES) {
+        state.filteredFilmsByGenre = state.filteredFilmsByGenre.filter((film) => state.selectedGenre === film.genre);
       }
+    })
+    .addCase(loadFilms, (state, action) => {
+      state.baseFilms = action.payload;
+      state.filteredFilmsByGenre = state.baseFilms;
+
+      const genres = new Set([ALL_GENRES]);
+      state.baseFilms.forEach((film) => genres.add(film.genre));
+
+      state.genres = [...genres];
+
+      state.isDataLoaded = true;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 

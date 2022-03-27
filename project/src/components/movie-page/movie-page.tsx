@@ -6,7 +6,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 
 export default function MoviePage(): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector((state) => state.filteredFilmsByGenre);
   const filmId = Number(useParams().id);
   const film = films.find((filmElem) => filmElem.id === filmId);
 
