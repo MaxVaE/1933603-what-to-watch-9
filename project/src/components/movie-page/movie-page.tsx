@@ -1,12 +1,14 @@
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import { AuthorizationStatus } from '../../const';
 import FilmsList from '../films-list/films-list';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 
 export default function MoviePage(): JSX.Element {
-  const films = useAppSelector((state) => state.filteredFilmsByGenre);
+  const {
+    authorizationStatus,
+    filteredFilmsByGenre: films,
+  } = useAppSelector((state) => state);
   const filmId = Number(useParams().id);
   const film = films.find((filmElem) => filmElem.id === filmId);
 
@@ -23,7 +25,7 @@ export default function MoviePage(): JSX.Element {
           <h1 className="visually-hidden">WTW</h1>
 
           <Header
-            authorizationStatus={AuthorizationStatus.Auth}
+            authorizationStatus={authorizationStatus}
             pageHeaderType="film-card__head"
           >
           </Header>

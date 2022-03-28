@@ -1,5 +1,4 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { onReviewProps } from '../../types/add-review';
 import FormAddReview from '../form-add-review/form-add-review';
@@ -7,7 +6,10 @@ import Header from '../header/header';
 
 
 export default function AddReview(): JSX.Element {
-  const films = useAppSelector((state) => state.filteredFilmsByGenre);
+  const {
+    authorizationStatus,
+    filteredFilmsByGenre: films,
+  } = useAppSelector((state) => state);
   const filmId = Number(useParams().id);
   const film = films.find((filmElem) => filmElem.id === filmId);
   const location = useLocation();
@@ -23,7 +25,7 @@ export default function AddReview(): JSX.Element {
 
 
         <Header
-          authorizationStatus={AuthorizationStatus.Auth}
+          authorizationStatus={authorizationStatus}
 
         >
           <nav className="breadcrumbs">

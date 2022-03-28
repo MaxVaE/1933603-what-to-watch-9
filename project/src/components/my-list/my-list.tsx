@@ -1,16 +1,18 @@
 import Header from '../header/header';
-import { AuthorizationStatus } from '../../const';
 import FilmsList from '../films-list/films-list';
 import { useAppSelector } from '../../hooks';
 
 export default function MyList(): JSX.Element {
-  const films = useAppSelector((state) => state.baseFilms);
+  const {
+    authorizationStatus,
+    baseFilms: films,
+  } = useAppSelector((state) => state);
   const myFilms = films.filter((film, index) => index < 6);
 
   return (
     <div className="user-page">
       <Header
-        authorizationStatus={AuthorizationStatus.Auth}
+        authorizationStatus={authorizationStatus}
         title="My list"
         pageHeaderType="user-page__head"
       >
