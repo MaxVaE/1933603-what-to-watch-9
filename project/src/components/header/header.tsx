@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../logo/logo';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { ReactNode } from 'react';
@@ -19,6 +19,7 @@ export default function Header({
   children,
 }: HeaderProps): JSX.Element {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <header className={`page-header ${pageHeaderType}`}>
@@ -34,9 +35,17 @@ export default function Header({
         authorizationStatus === AuthorizationStatus.Auth
           ? (
             <ul className="user-block">
-              <li className="user-block__item">
+              <li
+                onClick={() => navigate(AppRoute.MyList)}
+                className="user-block__item"
+              >
                 <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                  <img
+                    src="img/avatar.jpg"
+                    alt="User avatar"
+                    width="63"
+                    height="63"
+                  />
                 </div>
               </li>
               <li
