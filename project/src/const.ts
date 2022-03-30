@@ -16,6 +16,7 @@ export enum AuthorizationStatus {
 }
 
 export enum APIRoute {
+  Comments = '/comments',
   Films = '/films',
   Login = '/login',
   Logout = '/logout',
