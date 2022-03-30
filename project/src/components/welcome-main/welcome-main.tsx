@@ -4,7 +4,6 @@ import FilmsList from '../films-list/films-list';
 import GenresList from '../genres-list/genres-list';
 import ButtonMore from '../button-more/button-more';
 
-import { AuthorizationStatus } from '../../const';
 import { SelectedFilm } from '../../types/films';
 import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
@@ -18,8 +17,11 @@ type WelcomeMainProps = {
 export default function WelcomeMain({
   selectedFilm,
 }: WelcomeMainProps): JSX.Element {
-  const films = useAppSelector((state) => state.filteredFilmsByGenre);
-  const genres = useAppSelector((state) => state.genres);
+  const {
+    authorizationStatus,
+    filteredFilmsByGenre: films,
+    genres,
+  } = useAppSelector((state) => state);
   const [countFilms, setCountFilms] = useState(DEFAULT_COUNT_FILMS);
 
   return (
@@ -32,7 +34,7 @@ export default function WelcomeMain({
         <h1 className="visually-hidden">WTW</h1>
 
         <Header
-          authorizationStatus={AuthorizationStatus.Auth}
+          authorizationStatus={authorizationStatus}
           pageHeaderType="film-card__head"
         >
         </Header>

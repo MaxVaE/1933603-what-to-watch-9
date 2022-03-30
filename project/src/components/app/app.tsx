@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { SelectedFilm } from '../../types/films';
 
@@ -13,6 +13,8 @@ import Player from '../player/player';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
 import { isCheckedAuth } from '../../films';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 const video = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
 
@@ -33,7 +35,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Root}
@@ -80,7 +82,7 @@ function App(): JSX.Element {
           element={<NotFound404 />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

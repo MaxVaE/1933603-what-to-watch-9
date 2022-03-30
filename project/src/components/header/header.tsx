@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../logo/logo';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { ReactNode } from 'react';
+import { logoutAction } from '../../store/api-actions';
+import { useDispatch } from 'react-redux';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;
@@ -16,6 +18,9 @@ export default function Header({
   pageHeaderType,
   children,
 }: HeaderProps): JSX.Element {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <header className={`page-header ${pageHeaderType}`}>
       <Logo />
@@ -30,13 +35,32 @@ export default function Header({
         authorizationStatus === AuthorizationStatus.Auth
           ? (
             <ul className="user-block">
-              <li className="user-block__item">
+              <li
+                onClick={() => navigate(AppRoute.MyList)}
+                className="user-block__item"
+              >
                 <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                  <img
+                    src="img/avatar.jpg"
+                    alt="User avatar"
+                    width="63"
+                    height="63"
+                  />
                 </div>
               </li>
-              <li className="user-block__item">
-                <Link to={AppRoute.SignIn} className="user-block__link">Sign out</Link>
+              <li
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  dispatch(logoutAction());
+                }}
+                className="user-block__item"
+              >
+                <Link
+                  to={AppRoute.SignIn}
+                  className="user-block__link"
+                >
+                  Sign out
+                </Link>
               </li>
             </ul>
           )
