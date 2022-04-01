@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, Fragment, ReactNode, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, ReactNode, useState, useEffect } from 'react';
 import { onReviewFunc } from '../../types/add-review';
 
 type FormAddReviewProps = {
@@ -8,8 +8,13 @@ type FormAddReviewProps = {
 export default function FormAddReview({
   onReview,
 }: FormAddReviewProps) {
-  const [ratings, setRatings] = useState(0);
-  const [message, setMessage] = useState('');
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    setIsDisabled(comment.length > 50 && comment.length > 400 && !rating);
+  }, [comment, rating]);
 
   return (
     <div className="add-review">
@@ -17,10 +22,13 @@ export default function FormAddReview({
         className="add-review__form"
         onSubmit={(evt: FormEvent<HTMLFormElement>) => {
           evt.preventDefault();
-          onReview({
-            rating: ratings,
-            message,
-          });
+
+          if (!isDisabled) {
+            onReview({
+              rating,
+              comment,
+            });
+          }
         }}
       >
         <div className="rating">
@@ -37,13 +45,18 @@ export default function FormAddReview({
             placeholder="Review text"
             onChange={(evt) => {
               const { value } = evt.target;
-              setMessage(value);
+              setComment(value);
             }}
-            value={message}
+            value={comment}
           >
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button
+              className="add-review__btn"
+              type="submit"
+            >
+              Post
+            </button>
           </div>
 
         </div>
@@ -73,7 +86,7 @@ export default function FormAddReview({
           type="radio"
           name="rating"
           value={value}
-          onChange={(evt: ChangeEvent<HTMLInputElement>) => setRatings(Number(evt.target.value))}
+          onChange={(evt: ChangeEvent<HTMLInputElement>) => setRating(Number(evt.target.value))}
         />
         <label
           className="rating__label"
