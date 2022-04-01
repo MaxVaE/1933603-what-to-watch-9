@@ -3,6 +3,11 @@ import Header from '../header/header';
 import FilmsList from '../films-list/films-list';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
+import Tabs from '../tabs/tabs';
+import { useEffect, useState } from 'react';
+import { api } from '../../store';
+import { APIRoute } from '../../const';
+import { Films } from '../../types/films';
 
 export default function MoviePage(): JSX.Element {
   const {
@@ -13,6 +18,17 @@ export default function MoviePage(): JSX.Element {
   const film = films.find((filmElem) => filmElem.id === filmId);
 
   const location = useLocation();
+
+  const [similarFilms, setSimilarFilms] = useState<Films>([]);
+
+  useEffect(() => {
+    async function loadSimilarFilms() {
+      const { data } = await api.get<Films>(`${APIRoute.Films}/${filmId}/similar`);
+      setSimilarFilms(data);
+    }
+
+    loadSimilarFilms();
+  }, [filmId]);
 
   return (
     <>
@@ -54,7 +70,8 @@ export default function MoviePage(): JSX.Element {
                 <Link
                   to={`${location.pathname}/review`}
                   className="btn film-card__button"
-                >Add review
+                >
+                  Add review
                 </Link>
               </div>
             </div>
@@ -67,39 +84,12 @@ export default function MoviePage(): JSX.Element {
               <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
             </div>
 
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <Link to="#" className="film-nav__link">Overview</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to="#" className="film-nav__link">Details</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to="#" className="film-nav__link">Reviews</Link>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.</p>
-
-                <p>Gustave prides himself on providing first-className service to the hotel`s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave`s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
-                <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
-              </div>
-            </div>
+            {
+              film &&
+             <Tabs
+               film={film}
+             />
+            }
           </div>
         </div>
       </section>
@@ -108,7 +98,7 @@ export default function MoviePage(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={films.filter((element, index) => index < 4)} />
+          <FilmsList films={similarFilms.slice(0, 4)} />
         </section>
 
         <Footer />

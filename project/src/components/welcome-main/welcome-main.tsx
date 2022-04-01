@@ -81,8 +81,7 @@ export default function WelcomeMain({
           />
 
           <FilmsList
-            films={films}
-            countFilms={countFilms}
+            films={films.slice(0, countFilms)}
           />
 
           { films.length > countFilms && (
