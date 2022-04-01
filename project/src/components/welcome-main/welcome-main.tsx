@@ -9,7 +9,7 @@ import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 
 const DEFAULT_COUNT_FILMS = 8;
-const MAX_GENRES_COUNT = 9;
+const MAX_GENRES_COUNT = 10;
 
 type WelcomeMainProps = {
   selectedFilm: SelectedFilm;
@@ -75,7 +75,7 @@ export default function WelcomeMain({
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenresList
-            genres={genres.slice(0, MAX_GENRES_COUNT + 1)}
+            genres={genres.slice(0, MAX_GENRES_COUNT)}
             updateCountFilmList={() => setCountFilms(DEFAULT_COUNT_FILMS)}
           />
 
