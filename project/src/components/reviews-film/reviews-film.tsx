@@ -17,6 +17,7 @@ function ReviewsFilm({
   useEffect(() => {
     async function loadComments() {
       const { data } = await api.get<Comments>(`${APIRoute.Comments}/${film.id}`);
+
       setComments(data);
     }
 

@@ -7,7 +7,6 @@ import Header from '../header/header';
 
 export default function AddReview(): JSX.Element {
   const {
-    authorizationStatus,
     filteredFilmsByGenre: films,
   } = useAppSelector((state) => state);
   const filmId = Number(useParams().id);
@@ -24,10 +23,7 @@ export default function AddReview(): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
 
 
-        <Header
-          authorizationStatus={authorizationStatus}
-
-        >
+        <Header>
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">

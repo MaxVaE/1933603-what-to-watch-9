@@ -1,21 +1,38 @@
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import FilmsList from '../films-list/films-list';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import Tabs from '../tabs/tabs';
 import { useEffect, useState } from 'react';
 import { api } from '../../store';
 import { APIRoute } from '../../const';
-import { Films } from '../../types/films';
+import { Film, Films } from '../../types/films';
+import { isCheckedAuth } from '../../films';
 
 export default function MoviePage(): JSX.Element {
   const {
     authorizationStatus,
-    filteredFilmsByGenre: films,
   } = useAppSelector((state) => state);
   const filmId = Number(useParams().id);
-  const film = films.find((filmElem) => filmElem.id === filmId);
+
+  const [film, setFilm] = useState<Film>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function loadFilm() {
+      try {
+        const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
+
+        setFilm(data);
+      } catch (error) {
+        navigate('/not-found');
+      }
+    }
+
+    loadFilm();
+  }, [filmId, navigate]);
 
   const location = useLocation();
 
@@ -41,7 +58,6 @@ export default function MoviePage(): JSX.Element {
           <h1 className="visually-hidden">WTW</h1>
 
           <Header
-            authorizationStatus={authorizationStatus}
             pageHeaderType="film-card__head"
           >
           </Header>
@@ -67,12 +83,16 @@ export default function MoviePage(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link
-                  to={`${location.pathname}/review`}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {
+                  isCheckedAuth(authorizationStatus) && (
+                    <Link
+                      to={`${location.pathname}/review`}
+                      className="btn film-card__button"
+                    >
+                      Add review
+                    </Link>
+                  )
+                }
               </div>
             </div>
           </div>

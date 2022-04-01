@@ -1,23 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../logo/logo';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { ReactNode } from 'react';
 import { logoutAction } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
+import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
 
 type HeaderProps = {
-  authorizationStatus: AuthorizationStatus;
   title?: string;
   pageHeaderType?: string;
   children: ReactNode;
 }
 
 export default function Header({
-  authorizationStatus,
   title,
   pageHeaderType,
   children,
 }: HeaderProps): JSX.Element {
+  const {
+    authorizationStatus,
+  } = useAppSelector((state) => state);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,7 +36,7 @@ export default function Header({
       )}
 
       {
-        authorizationStatus === AuthorizationStatus.Auth
+        isCheckedAuth(authorizationStatus)
           ? (
             <ul className="user-block">
               <li
