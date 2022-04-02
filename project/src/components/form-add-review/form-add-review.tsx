@@ -3,17 +3,24 @@ import { onReviewFunc } from '../../types/add-review';
 
 type FormAddReviewProps = {
   onReview: onReviewFunc;
+  isLoading: boolean;
 };
+
+const MIN_TEXTAREA_LENGTH = 50;
+const MAX_TEXTAREA_LENGTH = 400;
 
 export default function FormAddReview({
   onReview,
+  isLoading,
 }: FormAddReviewProps) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isClickedOnSubmit, setIsClickedOnSubmit] = useState(false);
 
   useEffect(() => {
-    setIsDisabled(comment.length > 50 && comment.length > 400 && !rating);
+    setIsDisabled(!rating || comment.length < MIN_TEXTAREA_LENGTH);
   }, [comment, rating]);
 
   return (
@@ -21,6 +28,7 @@ export default function FormAddReview({
       <form
         className="add-review__form"
         onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+          setIsClickedOnSubmit(true);
           evt.preventDefault();
 
           if (!isDisabled) {
@@ -33,16 +41,20 @@ export default function FormAddReview({
       >
         <div className="rating">
           <div className="rating__stars">
+            {renderErrorForField('Choose rating', !rating)}
             {renderRatings()}
           </div>
         </div>
 
         <div className="add-review__text">
           <textarea
+            maxLength={MAX_TEXTAREA_LENGTH}
             className="add-review__textarea"
             name="review-text"
             id="review-text"
             placeholder="Review text"
+            required
+            disabled={isLoading}
             onChange={(evt) => {
               const { value } = evt.target;
               setComment(value);
@@ -50,16 +62,19 @@ export default function FormAddReview({
             value={comment}
           >
           </textarea>
+
           <div className="add-review__submit">
             <button
               className="add-review__btn"
               type="submit"
+              disabled={isDisabled || isLoading}
             >
               Post
             </button>
           </div>
-
         </div>
+
+        {renderErrorForField(`Min size ${MIN_TEXTAREA_LENGTH}`, comment.length < MIN_TEXTAREA_LENGTH)}
       </form>
     </div>
   );
@@ -86,6 +101,7 @@ export default function FormAddReview({
           type="radio"
           name="rating"
           value={value}
+          disabled={isLoading}
           onChange={(evt: ChangeEvent<HTMLInputElement>) => setRating(Number(evt.target.value))}
         />
         <label
@@ -96,5 +112,23 @@ export default function FormAddReview({
         </label>
       </Fragment>
     );
+  }
+
+  function renderErrorForField(text: string, isChecked: boolean) {
+    if (isClickedOnSubmit && isChecked) {
+      return (
+        <span
+          style={{
+            color: 'red',
+            fontSize: '14px',
+            lineHeight: '36px',
+          }}
+        >
+          {text}
+        </span>
+      );
+    }
+
+    return '';
   }
 }
