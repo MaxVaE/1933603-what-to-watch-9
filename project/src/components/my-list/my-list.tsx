@@ -4,7 +4,6 @@ import { useAppSelector } from '../../hooks';
 
 export default function MyList(): JSX.Element {
   const {
-    authorizationStatus,
     baseFilms: films,
   } = useAppSelector((state) => state);
   const myFilms = films.filter((film, index) => index < 6);
@@ -12,7 +11,6 @@ export default function MyList(): JSX.Element {
   return (
     <div className="user-page">
       <Header
-        authorizationStatus={authorizationStatus}
         title="My list"
         pageHeaderType="user-page__head"
       >

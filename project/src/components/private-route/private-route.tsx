@@ -1,17 +1,21 @@
 import { Navigate, RouteProps } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
+import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
 
 type PrivateRouteProps = RouteProps & {
-  authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
 }
 
 export default function PrivateRoute({
-  authorizationStatus,
   children,
 }: PrivateRouteProps): JSX.Element {
+  const {
+    authorizationStatus,
+  } = useAppSelector((state) => state);
+
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    isCheckedAuth(authorizationStatus)
       ? children
       : <Navigate to={AppRoute.SignIn} />
   );

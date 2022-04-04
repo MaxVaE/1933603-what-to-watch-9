@@ -9,6 +9,7 @@ import { useAppSelector } from '../../hooks';
 import { useState } from 'react';
 
 const DEFAULT_COUNT_FILMS = 8;
+const MAX_GENRES_COUNT = 10;
 
 type WelcomeMainProps = {
   selectedFilm: SelectedFilm;
@@ -18,7 +19,6 @@ export default function WelcomeMain({
   selectedFilm,
 }: WelcomeMainProps): JSX.Element {
   const {
-    authorizationStatus,
     filteredFilmsByGenre: films,
     genres,
   } = useAppSelector((state) => state);
@@ -34,7 +34,6 @@ export default function WelcomeMain({
         <h1 className="visually-hidden">WTW</h1>
 
         <Header
-          authorizationStatus={authorizationStatus}
           pageHeaderType="film-card__head"
         >
         </Header>
@@ -76,7 +75,7 @@ export default function WelcomeMain({
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenresList
-            genres={genres}
+            genres={genres.slice(0, MAX_GENRES_COUNT)}
             updateCountFilmList={() => setCountFilms(DEFAULT_COUNT_FILMS)}
           />
 

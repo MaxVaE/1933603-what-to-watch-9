@@ -12,7 +12,7 @@ import AddReview from '../add-review/add-review';
 import Player from '../player/player';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
-import { isCheckedAuth } from '../../films';
+import { isCheckedUnknown } from '../../films';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
@@ -28,7 +28,7 @@ const selectedFilm: SelectedFilm = {
 function App(): JSX.Element {
   const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
 
-  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+  if (isCheckedUnknown(authorizationStatus) || !isDataLoaded) {
     return (
       <LoadingScreen />
     );
@@ -48,9 +48,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={(
-            <PrivateRoute
-              authorizationStatus={authorizationStatus}
-            >
+            <PrivateRoute>
               <MyList />
             </PrivateRoute>
           )}
@@ -70,7 +68,9 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.AddReview}
           element={(
-            <AddReview />
+            <PrivateRoute>
+              <AddReview />
+            </PrivateRoute>
           )}
         />
         <Route

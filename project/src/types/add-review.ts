@@ -1,6 +1,6 @@
 export type onReviewProps = {
   rating: number;
-  message: string;
+  comment: string;
 };
 
-export type onReviewFunc = ({ rating, message }: onReviewProps) => void;
+export type onReviewFunc = ({ rating, comment }: onReviewProps) => void;
