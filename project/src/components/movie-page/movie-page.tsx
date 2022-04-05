@@ -1,38 +1,28 @@
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import Tabs from '../tabs/tabs';
+import { api } from '../../store';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import FilmsList from '../films-list/films-list';
-import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import Tabs from '../tabs/tabs';
-import { useEffect, useState } from 'react';
-import { api } from '../../store';
 import { APIRoute } from '../../const';
-import { Film, Films } from '../../types/films';
 import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
+import { Film, Films } from '../../types/films';
+import FilmsList from '../films-list/films-list';
 
-export default function MoviePage(): JSX.Element {
+type MoviePageProps = {
+  film: Film;
+  filmId: number;
+}
+
+export default function MoviePage({
+  film,
+  filmId,
+}: MoviePageProps): JSX.Element {
   const {
     authorizationStatus,
   } = useAppSelector((state) => state);
-  const filmId = Number(useParams().id);
-
-  const [film, setFilm] = useState<Film>();
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    async function loadFilm() {
-      try {
-        const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
-
-        setFilm(data);
-      } catch (error) {
-        navigate('/not-found');
-      }
-    }
-
-    loadFilm();
-  }, [filmId, navigate]);
 
   const location = useLocation();
 

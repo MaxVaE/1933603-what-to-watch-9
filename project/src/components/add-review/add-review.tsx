@@ -1,37 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
-import { APIRoute } from '../../const';
-import { errorHandle } from '../../services/error-handle';
-import { onReviewProps } from '../../types/add-review';
-import { Film } from '../../types/films';
-import FormAddReview from '../form-add-review/form-add-review';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import Header from '../header/header';
+import { APIRoute } from '../../const';
+import { Film } from '../../types/films';
 import { api } from './../../store/index';
+import { onReviewProps } from '../../types/add-review';
+import { errorHandle } from '../../services/error-handle';
+import FormAddReview from '../form-add-review/form-add-review';
 
+type AddReviewProps = {
+  film: Film;
+  filmId: number;
+}
 
-export default function AddReview(): JSX.Element {
-  const filmId = Number(useParams().id);
+export default function AddReview({
+  film,
+  filmId,
+}: AddReviewProps): JSX.Element {
   const location = useLocation();
-
-  const [film, setFilm] = useState<Film>();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function loadFilm() {
-      try {
-        const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
-
-        setFilm(data);
-      } catch (error) {
-        navigate('/not-found');
-      }
-    }
-
-    loadFilm();
-  }, [filmId, navigate]);
 
   return (
     <section className="film-card film-card--full">
