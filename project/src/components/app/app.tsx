@@ -26,7 +26,10 @@ const selectedFilm: SelectedFilm = {
 };
 
 function App(): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+  const {
+    authorizationStatus,
+    isDataLoaded,
+  } = useAppSelector((state) => state);
 
   if (isCheckedUnknown(authorizationStatus) || !isDataLoaded) {
     return (

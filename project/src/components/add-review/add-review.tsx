@@ -4,7 +4,6 @@ import { APIRoute } from '../../const';
 import { errorHandle } from '../../services/error-handle';
 import { onReviewProps } from '../../types/add-review';
 import { Film } from '../../types/films';
-import ErrorMessage from '../error-message/errorMessage';
 import FormAddReview from '../form-add-review/form-add-review';
 import Header from '../header/header';
 import { api } from './../../store/index';
@@ -36,8 +35,6 @@ export default function AddReview(): JSX.Element {
 
   return (
     <section className="film-card film-card--full">
-      <ErrorMessage/>
-
       <div className="film-card__header">
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
