@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, Fragment, ReactNode, useState, useEffect } from 'react';
+
 import { onReviewFunc } from '../../types/add-review';
 
 type FormAddReviewProps = {
@@ -12,7 +13,7 @@ const MAX_TEXTAREA_LENGTH = 400;
 export default function FormAddReview({
   onReview,
   isLoading,
-}: FormAddReviewProps) {
+}: FormAddReviewProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
 

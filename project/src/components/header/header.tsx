@@ -1,11 +1,12 @@
+import { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import Logo from '../logo/logo';
 import { AppRoute } from '../../const';
-import { ReactNode } from 'react';
-import { logoutAction } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
 import { isCheckedAuth } from '../../films';
 import { useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
 
 type HeaderProps = {
   title?: string;
@@ -29,11 +30,11 @@ export default function Header({
     <header className={`page-header ${pageHeaderType}`}>
       <Logo />
 
-      {children}
-
       { title && (
         <h1 className="page-title user-page__title">{title}</h1>
       )}
+
+      {children}
 
       {
         isCheckedAuth(authorizationStatus)

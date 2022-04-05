@@ -6,7 +6,7 @@ type CommentFilmProps = {
 
 function CommentFilm({
   comment,
-}: CommentFilmProps) {
+}: CommentFilmProps): JSX.Element {
 
   return (
     <div className="review">

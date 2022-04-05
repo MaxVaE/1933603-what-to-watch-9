@@ -5,12 +5,12 @@ import { AppRoute } from '../../const';
 import MyList from '../my-list/my-list';
 import SignIn from '../sign-in/sign-in';
 import { useAppSelector } from '../../hooks';
+import NotFound from '../not-found/not-found';
 import { isCheckedUnknown } from '../../films';
 import { SelectedFilm } from '../../types/films';
 import MoviePage from '../movie-page/movie-page';
 import AddReview from '../add-review/add-review';
 import browserHistory from '../../browser-history';
-import NotFound404 from '../NotFound404/NotFound404';
 import WelcomeMain from '../welcome-main/welcome-main';
 import PrivateRoute from '../private-route/private-route';
 import HistoryRouter from '../history-route/history-route';
@@ -86,7 +86,7 @@ function App(): JSX.Element {
         />
         <Route
           path="*"
-          element={<NotFound404 />}
+          element={<NotFound />}
         />
       </Routes>
     </HistoryRouter>

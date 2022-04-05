@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { Film } from '../../types/films';
 import DetailsFilm from '../details-film/details-film';
-import OverviewFilm from '../overview-film/overview-film';
 import ReviewsFilm from './../reviews-film/reviews-film';
+import OverviewFilm from '../overview-film/overview-film';
 
 enum TabsNames {
   OVERVIEW = 'Overview',
@@ -23,7 +24,7 @@ type TabsProps = {
 
 function Tabs({
   film,
-}: TabsProps) {
+}: TabsProps): JSX.Element {
   const [selectedTab, setSelectedTab] = useState<string>(TabsNames.OVERVIEW);
 
   const SelectedTabComponent = TabComponents[selectedTab];
