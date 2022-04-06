@@ -6,22 +6,17 @@ import Video from '../video/video';
 
 type FilmCardProps = {
   film: Film;
-  activateFilm: (id: number) => void;
 }
 
 export default function FilmCard({
   film,
-  activateFilm,
 }: FilmCardProps): JSX.Element {
   const [autoPlay, setAutoPlay] = useState(false);
 
   return (
     <article
       className="small-film-card catalog__films-card"
-      onMouseOver={() => {
-        setAutoPlay(true);
-        return activateFilm(film.id);
-      }}
+      onMouseOver={() => setAutoPlay(true)}
       onMouseOut={() => setAutoPlay(false)}
     >
       <div className="small-film-card__image">
