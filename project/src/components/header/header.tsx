@@ -71,7 +71,12 @@ export default function Header({
           )
           : (
             <div className="user-block">
-              <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
+              <Link
+                to={AppRoute.SignIn}
+                className="user-block__link"
+              >
+                Sign in
+              </Link>
             </div>
           )
       }

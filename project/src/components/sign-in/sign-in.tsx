@@ -1,18 +1,30 @@
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useEffect } from 'react';
 import { AppRoute } from '../../const';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
+import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
 
 export default function SignIn(): JSX.Element {
+  const {
+    authorizationStatus,
+  } = useAppSelector((state) => state);
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCheckedAuth(authorizationStatus)) {
+      navigate(AppRoute.Root);
+    }
+  }, [authorizationStatus, navigate]);
 
   return (
     <div className="user-page">
@@ -37,6 +49,7 @@ export default function SignIn(): JSX.Element {
                 placeholder="Email address"
                 name="user-email"
                 id="user-email"
+                required
               />
             </div>
             <div className="sign-in__field">
@@ -46,7 +59,9 @@ export default function SignIn(): JSX.Element {
                 className="sign-in__input"
                 type="password"
                 placeholder="Password"
-                name="user-password" id="user-password"
+                name="user-password"
+                id="user-password"
+                required
               />
             </div>
           </div>
