@@ -7,7 +7,6 @@ import SignIn from '../sign-in/sign-in';
 import { useAppSelector } from '../../hooks';
 import NotFound from '../not-found/not-found';
 import { isCheckedUnknown } from '../../films';
-import { SelectedFilm } from '../../types/films';
 import MoviePage from '../movie-page/movie-page';
 import AddReview from '../add-review/add-review';
 import browserHistory from '../../browser-history';
@@ -21,13 +20,6 @@ const MoviePageWrapped = withLoadFilm(MoviePage);
 const AddReviewWrapped = withLoadFilm(AddReview);
 
 const video = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
-
-const selectedFilm: SelectedFilm = {
-  title: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  year: 2014,
-  srcPoster: 'img/the-grand-budapest-hotel-poster.jpg',
-};
 
 function App(): JSX.Element {
   const {
@@ -47,9 +39,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Root}
           element={(
-            <WelcomeMain
-              selectedFilm={selectedFilm}
-            />
+            <WelcomeMain />
           )}
         />
         <Route

@@ -16,11 +16,13 @@ function ReviewsFilm({
   const [comments, setComments] = useState<Comments>([]);
 
   useEffect(() => {
-    async function loadComments() {
-      const { data } = await api.get<Comments>(`${APIRoute.Comments}/${film.id}`);
-
-      setComments(data);
+    function loadComments() {
+      api.get<Comments>(`${APIRoute.Comments}/${film.id}`)
+        .then(({ data }) => {
+          setComments(data);
+        });
     }
+
 
     loadComments();
   }, [film.id]);

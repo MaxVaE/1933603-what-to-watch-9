@@ -20,11 +20,4 @@ export type Film = {
   isFavorite: boolean;
 };
 
-export type SelectedFilm = {
-  title: string;
-  genre: Genre;
-  year: number;
-  srcPoster: string;
-};
-
 export type Films = Film[];
