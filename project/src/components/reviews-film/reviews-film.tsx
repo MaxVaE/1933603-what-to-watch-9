@@ -30,28 +30,10 @@ function ReviewsFilm({
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {comments
-          .slice(0, getHalfLengthOfArray())
-          .map((comment) =>
-            (
-              <CommentFilm
-                key={comment.id}
-                comment={comment}
-              />
-            ),
-          )}
+        {renderComments(0, getHalfLengthOfArray())}
       </div>
       <div className="film-card__reviews-col">
-        {comments
-          .slice(getHalfLengthOfArray(), comments.length)
-          .map((comment) =>
-            (
-              <CommentFilm
-                key={comment.id}
-                comment={comment}
-              />
-            ),
-          )}
+        {renderComments(getHalfLengthOfArray(), comments.length)}
       </div>
     </div>
   );
@@ -62,6 +44,19 @@ function ReviewsFilm({
     return comments.length % 2 === 0
       ? halfLength
       : halfLength + 1;
+  }
+
+  function renderComments(minRange: number, maxRange: number) {
+    return comments
+      .slice(minRange, maxRange)
+      .map((comment) =>
+        (
+          <CommentFilm
+            key={comment.id}
+            comment={comment}
+          />
+        ),
+      );
   }
 }
 

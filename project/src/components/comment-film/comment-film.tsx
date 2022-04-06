@@ -1,7 +1,7 @@
 import { Comment } from '../../types/comments';
 
 type CommentFilmProps = {
-  comment: Comment,
+  comment: Comment;
 }
 
 function CommentFilm({
