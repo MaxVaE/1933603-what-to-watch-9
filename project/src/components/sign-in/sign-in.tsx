@@ -52,6 +52,7 @@ export default function SignIn(): JSX.Element {
                 required
               />
             </div>
+
             <div className="sign-in__field">
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               <input
@@ -65,6 +66,7 @@ export default function SignIn(): JSX.Element {
               />
             </div>
           </div>
+
           <div className="sign-in__submit">
             <button
               className="sign-in__btn"

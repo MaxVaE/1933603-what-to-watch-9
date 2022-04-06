@@ -28,7 +28,7 @@ export default function AddReview({
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -37,7 +37,12 @@ export default function AddReview({
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={getFilmPath()} className="breadcrumbs__link">The Grand Budapest Hotel</Link>
+                <Link
+                  to={getFilmPath()}
+                  className="breadcrumbs__link"
+                >
+                  {film.name}
+                </Link>
               </li>
               <li className="breadcrumbs__item">
                 <Link to="#" className="breadcrumbs__link">Add review</Link>
@@ -47,7 +52,7 @@ export default function AddReview({
         </Header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
+          <img src={film.posterImage} alt={film.name} width="218" height="327" />
         </div>
       </div>
 

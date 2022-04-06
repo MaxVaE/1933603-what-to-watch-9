@@ -22,6 +22,7 @@ export default function WelcomeMain({
     filteredFilmsByGenre: films,
     genres,
   } = useAppSelector((state) => state);
+
   const [countFilms, setCountFilms] = useState(DEFAULT_COUNT_FILMS);
 
   return (

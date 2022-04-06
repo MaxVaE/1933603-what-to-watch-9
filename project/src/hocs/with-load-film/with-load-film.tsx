@@ -4,6 +4,7 @@ import { ComponentType, useEffect, useState } from 'react';
 import { api } from '../../store';
 import { APIRoute } from '../../const';
 import { Film } from '../../types/films';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 type HOCProps = {
   film: Film;
@@ -19,21 +20,31 @@ function withLoadFilm<T>(Component: ComponentType<T>)
     const filmId = Number(useParams().id);
     const [film, setFilm] = useState<Film>();
 
+    const [isLoaded, setIsLoaded] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-      async function loadFilm() {
+      function loadFilm() {
+        setIsLoaded(true);
+
         api.get<Film>(`${APIRoute.Films}/${filmId}`)
           .then(({ data }) => {
             setFilm(data);
           })
           .catch(() => {
             navigate('/not-found');
+          })
+          .finally(() => {
+            setIsLoaded(false);
           });
       }
 
       loadFilm();
     }, [filmId, navigate]);
+
+    if (isLoaded) {
+      return <LoadingScreen />;
+    }
 
     return (
       <Component
