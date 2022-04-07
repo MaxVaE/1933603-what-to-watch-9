@@ -1,5 +1,6 @@
-import { Film } from '../../types/films';
 import { Fragment } from 'react';
+
+import { Film } from '../../types/films';
 
 type OverviewFilmProps = {
   film: Film;
@@ -7,7 +8,7 @@ type OverviewFilmProps = {
 
 function OverviewFilm({
   film,
-}: OverviewFilmProps) {
+}: OverviewFilmProps): JSX.Element {
   return (
     <Fragment>
       <div className="film-rating">

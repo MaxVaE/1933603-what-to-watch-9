@@ -1,38 +1,28 @@
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import Tabs from '../tabs/tabs';
+import { api } from '../../store';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import FilmsList from '../films-list/films-list';
-import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import Tabs from '../tabs/tabs';
-import { useEffect, useState } from 'react';
-import { api } from '../../store';
 import { APIRoute } from '../../const';
-import { Film, Films } from '../../types/films';
 import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
+import { Film, Films } from '../../types/films';
+import FilmsList from '../films-list/films-list';
 
-export default function MoviePage(): JSX.Element {
+type MoviePageProps = {
+  film: Film;
+  filmId: number;
+}
+
+export default function MoviePage({
+  film,
+  filmId,
+}: MoviePageProps): JSX.Element {
   const {
     authorizationStatus,
   } = useAppSelector((state) => state);
-  const filmId = Number(useParams().id);
-
-  const [film, setFilm] = useState<Film>();
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    async function loadFilm() {
-      try {
-        const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
-
-        setFilm(data);
-      } catch (error) {
-        navigate('/not-found');
-      }
-    }
-
-    loadFilm();
-  }, [filmId, navigate]);
 
   const location = useLocation();
 
@@ -49,10 +39,13 @@ export default function MoviePage(): JSX.Element {
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section
+        className="film-card film-card--full"
+        style={{background: film.backgroundColor}}
+      >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -64,10 +57,10 @@ export default function MoviePage(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film?.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -101,7 +94,7 @@ export default function MoviePage(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
+              <img src={film.posterImage} alt={film.name} width="218" height="327" />
             </div>
 
             {

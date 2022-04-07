@@ -1,9 +1,10 @@
-import { api } from '../../store';
-import { Film } from '../../types/films';
 import { useEffect, useState } from 'react';
-import CommentFilm from '../comment-film/comment-film';
-import { Comments } from '../../types/comments';
+
+import { api } from '../../store';
 import { APIRoute } from '../../const';
+import { Film } from '../../types/films';
+import { Comments } from '../../types/comments';
+import CommentFilm from '../comment-film/comment-film';
 
 type ReviewsFilmProps = {
   film: Film;
@@ -11,15 +12,17 @@ type ReviewsFilmProps = {
 
 function ReviewsFilm({
   film,
-}: ReviewsFilmProps) {
+}: ReviewsFilmProps): JSX.Element {
   const [comments, setComments] = useState<Comments>([]);
 
   useEffect(() => {
-    async function loadComments() {
-      const { data } = await api.get<Comments>(`${APIRoute.Comments}/${film.id}`);
-
-      setComments(data);
+    function loadComments() {
+      api.get<Comments>(`${APIRoute.Comments}/${film.id}`)
+        .then(({ data }) => {
+          setComments(data);
+        });
     }
+
 
     loadComments();
   }, [film.id]);
@@ -27,28 +30,10 @@ function ReviewsFilm({
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {comments
-          .slice(0, getHalfLengthOfArray())
-          .map((comment) =>
-            (
-              <CommentFilm
-                key={comment.id}
-                comment={comment}
-              />
-            ),
-          )}
+        {renderComments(0, getHalfLengthOfArray())}
       </div>
       <div className="film-card__reviews-col">
-        {comments
-          .slice(getHalfLengthOfArray(), comments.length)
-          .map((comment) =>
-            (
-              <CommentFilm
-                key={comment.id}
-                comment={comment}
-              />
-            ),
-          )}
+        {renderComments(getHalfLengthOfArray(), comments.length)}
       </div>
     </div>
   );
@@ -59,6 +44,19 @@ function ReviewsFilm({
     return comments.length % 2 === 0
       ? halfLength
       : halfLength + 1;
+  }
+
+  function renderComments(minRange: number, maxRange: number) {
+    return comments
+      .slice(minRange, maxRange)
+      .map((comment) =>
+        (
+          <CommentFilm
+            key={comment.id}
+            comment={comment}
+          />
+        ),
+      );
   }
 }
 

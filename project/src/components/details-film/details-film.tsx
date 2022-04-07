@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+
 import { Film } from '../../types/films';
 
 type DetailsFilmProps = {
@@ -7,7 +8,7 @@ type DetailsFilmProps = {
 
 function DetailsFilm({
   film,
-}: DetailsFilmProps) {
+}: DetailsFilmProps): JSX.Element {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">

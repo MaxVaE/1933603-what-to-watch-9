@@ -6,13 +6,23 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
+import { isCheckedAuth } from '../../films';
+import { useAppSelector } from '../../hooks';
 
 export default function SignIn(): JSX.Element {
+  const {
+    authorizationStatus,
+  } = useAppSelector((state) => state);
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  if (isCheckedAuth(authorizationStatus)) {
+    navigate(AppRoute.Root);
+  }
 
   return (
     <div className="user-page">
@@ -37,8 +47,10 @@ export default function SignIn(): JSX.Element {
                 placeholder="Email address"
                 name="user-email"
                 id="user-email"
+                required
               />
             </div>
+
             <div className="sign-in__field">
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               <input
@@ -46,10 +58,13 @@ export default function SignIn(): JSX.Element {
                 className="sign-in__input"
                 type="password"
                 placeholder="Password"
-                name="user-password" id="user-password"
+                name="user-password"
+                id="user-password"
+                required
               />
             </div>
           </div>
+
           <div className="sign-in__submit">
             <button
               className="sign-in__btn"

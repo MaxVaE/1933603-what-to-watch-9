@@ -4,31 +4,40 @@ import FilmsList from '../films-list/films-list';
 import GenresList from '../genres-list/genres-list';
 import ButtonMore from '../button-more/button-more';
 
-import { SelectedFilm } from '../../types/films';
+import { Film } from '../../types/films';
 import { useAppSelector } from '../../hooks';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from './../../store/index';
 
 const DEFAULT_COUNT_FILMS = 8;
 const MAX_GENRES_COUNT = 10;
 
-type WelcomeMainProps = {
-  selectedFilm: SelectedFilm;
-};
-
-export default function WelcomeMain({
-  selectedFilm,
-}: WelcomeMainProps): JSX.Element {
+export default function WelcomeMain(): JSX.Element {
   const {
     filteredFilmsByGenre: films,
     genres,
   } = useAppSelector((state) => state);
+
   const [countFilms, setCountFilms] = useState(DEFAULT_COUNT_FILMS);
+  const [promo, setPropmo] = useState<Film>(films[0]);
+
+  useEffect(() => {
+    function loadPromo() {
+      api.get<Film>('/promo')
+        .then(({ data }) => setPropmo(data));
+    }
+
+    loadPromo();
+  }, []);
 
   return (
     <>
-      <section className="film-card">
+      <section
+        className="film-card"
+        style={{background: promo.backgroundColor}}
+      >
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promo.backgroundImage} alt={promo.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -41,14 +50,14 @@ export default function WelcomeMain({
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={selectedFilm.srcPoster} alt={`${selectedFilm.title} poster`} width="218" height="327" />
+              <img src={promo.posterImage} alt={promo.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{selectedFilm.title}</h2>
+              <h2 className="film-card__title">{promo.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{selectedFilm.genre}</span>
-                <span className="film-card__year">{selectedFilm.year}</span>
+                <span className="film-card__genre">{promo.genre}</span>
+                <span className="film-card__year">{promo.released}</span>
               </p>
 
               <div className="film-card__buttons">

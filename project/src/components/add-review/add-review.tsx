@@ -1,46 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
-import { APIRoute } from '../../const';
-import { errorHandle } from '../../services/error-handle';
-import { onReviewProps } from '../../types/add-review';
-import { Film } from '../../types/films';
-import ErrorMessage from '../error-message/errorMessage';
-import FormAddReview from '../form-add-review/form-add-review';
+import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import Header from '../header/header';
+import { APIRoute } from '../../const';
+import { Film } from '../../types/films';
 import { api } from './../../store/index';
+import { onReviewProps } from '../../types/add-review';
+import { errorHandle } from '../../services/error-handle';
+import FormAddReview from '../form-add-review/form-add-review';
 
+type AddReviewProps = {
+  film: Film;
+  filmId: number;
+}
 
-export default function AddReview(): JSX.Element {
-  const filmId = Number(useParams().id);
+export default function AddReview({
+  film,
+  filmId,
+}: AddReviewProps): JSX.Element {
   const location = useLocation();
-
-  const [film, setFilm] = useState<Film>();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function loadFilm() {
-      try {
-        const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
-
-        setFilm(data);
-      } catch (error) {
-        navigate('/not-found');
-      }
-    }
-
-    loadFilm();
-  }, [filmId, navigate]);
-
   return (
     <section className="film-card film-card--full">
-      <ErrorMessage/>
-
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -49,7 +37,12 @@ export default function AddReview(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={getFilmPath()} className="breadcrumbs__link">The Grand Budapest Hotel</Link>
+                <Link
+                  to={getFilmPath()}
+                  className="breadcrumbs__link"
+                >
+                  {film.name}
+                </Link>
               </li>
               <li className="breadcrumbs__item">
                 <Link to="#" className="breadcrumbs__link">Add review</Link>
@@ -59,7 +52,7 @@ export default function AddReview(): JSX.Element {
         </Header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film?.posterImage} alt={film?.name} width="218" height="327" />
+          <img src={film.posterImage} alt={film.name} width="218" height="327" />
         </div>
       </div>
 

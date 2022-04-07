@@ -3,17 +3,18 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-import ErrorMessage from './components/error-message/errorMessage';
 import { store } from './store';
 import { checkAuthAction, fetchFilmsAction } from './store/api-actions';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(checkAuthAction());
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store = {store}>
-      <ErrorMessage />
+    <Provider store={store}>
+      <ToastContainer />
       <App />
     </Provider>
   </React.StrictMode>,

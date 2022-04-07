@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { Films } from '../types/films';
 import { Genres } from '../types/genre';
-import { changeGenre, filterFilmsSelectedGenre, loadFilms, requireAuthorization, setError } from './action';
+import { changeGenre, filterFilmsSelectedGenre, loadFilms, requireAuthorization } from './action';
 
 const ALL_GENRES = 'All genres';
 
@@ -13,7 +13,6 @@ type InitialState = {
   selectedGenre: string;
   authorizationStatus: AuthorizationStatus;
   isDataLoaded: boolean;
-  error: string;
 }
 
 const initialState: InitialState = {
@@ -23,7 +22,6 @@ const initialState: InitialState = {
   selectedGenre: ALL_GENRES,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
-  error: '',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -51,10 +49,7 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
-    })
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
     });
 });
 
-export {reducer};
+export { reducer };
