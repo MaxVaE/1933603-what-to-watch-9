@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Player from '../player/player';
 import { AppRoute } from '../../const';
 import MyList from '../my-list/my-list';
 import SignIn from '../sign-in/sign-in';
@@ -16,10 +15,8 @@ import HistoryRouter from '../history-route/history-route';
 import LoadingScreen from '../loading-screen/loading-screen';
 import withLoadFilm from '../../hocs/with-load-film/with-load-film';
 
-const MoviePageWrapped = withLoadFilm(MoviePage);
 const AddReviewWrapped = withLoadFilm(AddReview);
-
-const video = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
+const MoviePageWrapped = withLoadFilm(MoviePage);
 
 function App(): JSX.Element {
   const {
@@ -69,10 +66,6 @@ function App(): JSX.Element {
               <AddReviewWrapped />
             </PrivateRoute>
           )}
-        />
-        <Route
-          path={AppRoute.Player}
-          element={<Player video={video} />}
         />
         <Route
           path="*"
