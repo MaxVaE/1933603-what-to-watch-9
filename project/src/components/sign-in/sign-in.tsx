@@ -1,6 +1,6 @@
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useEffect } from 'react';
 import { AppRoute } from '../../const';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -20,9 +20,11 @@ export default function SignIn(): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  if (isCheckedAuth(authorizationStatus)) {
-    navigate(AppRoute.Root);
-  }
+  useEffect(() => {
+    if (isCheckedAuth(authorizationStatus)) {
+      navigate(AppRoute.Root);
+    }
+  }, [authorizationStatus, navigate]);
 
   return (
     <div className="user-page">
