@@ -9,6 +9,7 @@ import { useAppSelector } from '../../hooks';
 import { useState, useEffect } from 'react';
 import { api } from './../../store/index';
 import VideoPlayer from '../video-player/video-player';
+import ButtonMyList from '../button-my-list/button-my-list';
 
 const DEFAULT_COUNT_FILMS = 8;
 const MAX_GENRES_COUNT = 10;
@@ -74,12 +75,11 @@ export default function WelcomeMain(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+
+                <ButtonMyList
+                  film={promo}
+                />
+
               </div>
             </div>
           </div>

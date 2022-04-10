@@ -11,6 +11,7 @@ import { useAppSelector } from '../../hooks';
 import { Film, Films } from '../../types/films';
 import FilmsList from '../films-list/films-list';
 import VideoPlayer from '../video-player/video-player';
+import ButtonMyList from '../button-my-list/button-my-list';
 
 type MoviePageProps = {
   film: Film;
@@ -77,12 +78,11 @@ export default function MoviePage({
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+
+                <ButtonMyList
+                  film={film}
+                />
+
                 {
                   isCheckedAuth(authorizationStatus) && (
                     <Link
