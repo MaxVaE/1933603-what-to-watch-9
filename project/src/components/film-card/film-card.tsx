@@ -23,7 +23,7 @@ export default function FilmCard({
         <Video
           videoSrc={film.previewVideoLink}
           poster={film.previewImage}
-          isPlaying={autoPlay}
+          isAutoPlaying={autoPlay}
           muted
         />
       </div>
