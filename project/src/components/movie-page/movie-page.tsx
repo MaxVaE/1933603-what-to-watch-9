@@ -10,6 +10,8 @@ import { isCheckedAuth } from '../../films';
 import { useAppSelector } from '../../hooks';
 import { Film, Films } from '../../types/films';
 import FilmsList from '../films-list/films-list';
+import VideoPlayer from '../video-player/video-player';
+import ButtonMyList from '../button-my-list/button-my-list';
 
 type MoviePageProps = {
   film: Film;
@@ -27,6 +29,8 @@ export default function MoviePage({
   const location = useLocation();
 
   const [similarFilms, setSimilarFilms] = useState<Films>([]);
+
+  const [showPlayer, setShowPlayer] = useState(false);
 
   useEffect(() => {
     async function loadSimilarFilms() {
@@ -64,18 +68,21 @@ export default function MoviePage({
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={() => setShowPlayer(true)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+
+                <ButtonMyList
+                  film={film}
+                />
+
                 {
                   isCheckedAuth(authorizationStatus) && (
                     <Link
@@ -107,15 +114,26 @@ export default function MoviePage({
         </div>
       </section>
 
-      <div className="page-content">
-        <section className="catalog catalog--like-this">
-          <h2 className="catalog__title">More like this</h2>
+      {
+        showPlayer
+          ? (
+            <VideoPlayer
+              film={film}
+              onClose={() => setShowPlayer(false)}
+            />
+          )
+          : (
+            <div className="page-content">
+              <section className="catalog catalog--like-this">
+                <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={similarFilms.slice(0, 4)} />
-        </section>
+                <FilmsList films={similarFilms.slice(0, 4)} />
+              </section>
 
-        <Footer />
-      </div>
+              <Footer />
+            </div>
+          )
+      }
     </>
   );
 }

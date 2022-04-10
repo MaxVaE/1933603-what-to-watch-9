@@ -2,16 +2,20 @@ import { useEffect, useRef } from 'react';
 
 type VideoProps = {
   videoSrc: string;
-  poster: string;
+  poster?: string;
   muted?: boolean;
   isPlaying?: boolean;
+  className?: string;
+  isControls?: boolean;
 }
 
 export default function Video({
   videoSrc,
   poster,
-  muted = false,
+  muted,
   isPlaying,
+  className,
+  isControls,
 }: VideoProps): JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -31,10 +35,12 @@ export default function Video({
 
   return (
     <video
+      className={className}
       src={videoSrc}
       poster={poster}
       muted={muted}
       ref={videoRef}
+      controls={isControls}
     />
   );
 }
