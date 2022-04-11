@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Film } from '../../types/films';
 import Video from '../video/video';
@@ -13,23 +13,25 @@ export default function FilmCard({
 }: FilmCardProps): JSX.Element {
   const [autoPlay, setAutoPlay] = useState(false);
 
+  const navigate = useNavigate();
+
   return (
     <article
       className="small-film-card catalog__films-card"
       onMouseOver={() => setAutoPlay(true)}
       onMouseOut={() => setAutoPlay(false)}
+      onClick={() => navigate(getPathToMoviePage())}
     >
-      <div className="small-film-card__image">
-        <Video
-          videoSrc={film.previewVideoLink}
-          poster={film.previewImage}
-          isAutoPlaying={autoPlay}
-          muted
-        />
-      </div>
+      <Video
+        className="small-film-card__image"
+        videoSrc={film.previewVideoLink}
+        poster={film.previewImage}
+        isAutoPlaying={autoPlay}
+        muted
+      />
       <h3 className="small-film-card__title">
         <Link
-          to={AppRoute.Film.replace(':id', film.id.toString())}
+          to={getPathToMoviePage()}
           className="small-film-card__link"
         >
           {film.name}
@@ -37,4 +39,8 @@ export default function FilmCard({
       </h3>
     </article>
   );
+
+  function getPathToMoviePage() {
+    return AppRoute.Film.replace(':id', film.id.toString());
+  }
 }

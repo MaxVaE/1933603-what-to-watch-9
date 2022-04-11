@@ -85,13 +85,18 @@ export default function SignIn(): JSX.Element {
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
 
-      navigate(AppRoute.Root);
+    if (emailRef.current !== null && passwordRef.current !== null) {
+      const isValidEmail = emailRef.current.value.search(/^.*@[a-z]*\.[a-z]*$/);
+
+      if (isValidEmail !== -1) {
+        onSubmit({
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        });
+
+        navigate(AppRoute.Root);
+      }
     }
   }
 
