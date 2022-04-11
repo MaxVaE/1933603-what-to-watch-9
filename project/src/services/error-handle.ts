@@ -2,26 +2,31 @@ import request from 'axios';
 import { toast } from 'react-toastify';
 
 import { ErrorType } from '../types/error';
-import { HTTP_CODE } from '../const';
+import { HttpCode } from '../const';
 
 export const errorHandle = (error: ErrorType): void => {
   if (!request.isAxiosError(error)) {
     throw error;
   }
 
-  const { response } = error;
+  const {
+    response,
+    message,
+  } = error;
 
   if (response) {
     switch (response.status) {
-      case HTTP_CODE.BAD_REQUEST:
+      case HttpCode.BAD_REQUEST:
         toast.info(response.data.error);
         break;
-      case HTTP_CODE.UNAUTHORIZED:
+      case HttpCode.UNAUTHORIZED:
         toast.info(response.data.error);
         break;
-      case HTTP_CODE.NOT_FOUND:
+      case HttpCode.NOT_FOUND:
         toast.info(response.data.error);
         break;
     }
+  } else {
+    toast.error(message);
   }
 };
